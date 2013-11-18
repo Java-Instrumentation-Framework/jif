@@ -20,37 +20,14 @@
    <url>http://www.mbl.edu/cdp/oldenbourg-lab/lc-polscope/</url>
    <inceptionYear>2012</inceptionYear>
    <modules>
-      <module>jifbase</module>
-      <module>jifutil</module>
-      <module>util-diag</module>
-      <module>jif-util-prefs</module>
+            <module>util-diag</module>
       <module>jif-minimal</module>
-      <module>jif-gui</module>
-      
       <module>jif-imaging</module>
       <module>jif-imaging-tiff</module>
       <module>jif-imaging-api</module>
-      <module>jif-acqtask</module>
-      <!--
-      <module>jif-comm</module>
-      <module>jif-io</module>
-      <module>jif-joystick</module>
-      -->
       <module>jif-ij</module>
-      <module>jif-script</module>
-      <module>mymmplugin</module>
-      <!--<module>mytestplugin</module>-->
-      <module>dataset</module>
-      <module>datasetconverter</module>
-      <module>process</module>
-      <module>jif-commx</module>
-      <module>jif-sexamples</module>
-      <module>TestImageIO</module>
       <module>jif-io</module>
-      <module>jif0</module>
-      
       <module>imagenavigator</module>
-      <module>mmxplugins</module>
    </modules>
    <properties>
       <imagej1.version>[1.45s,)</imagej1.version>
