@@ -1,0 +1,19 @@
+#This is the properties file of Galatee, a Java library for exploring and searching in large image collection where images are annotated
+#Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
+#Thu Sep 20 10:09:07 EDT 2012
+IMAGE_WIDTH=114
+CELL_OUTER_HEIGHT=3
+HORIZONTAL_SCROLLBAR_UNIT_INCREMENT=42
+VERTICAL_SCROLLBAR_UNIT_INCREMENT=42
+NUMBER_OF_COLUMN=4
+CELL_OUTER_WIDTH=3
+IMAGE_DESCRIPTION_SPACER=2
+AUTHORIZED_FILENAME_EXTENSIONS=jpg,jpeg,png,gif,svg,bmp,ppm,pgm,tif
+CELL_PADDING_WIDTH=1
+UNSELECTED_ITEM_BACKGROUND_COLOR=\#EDE9E3
+CELL_PADDING_HEIGHT=1
+IMAGE_ERROR_FILE_PATH=./gfx/imageLoadingError.jpg
+IMAGE_HEIGHT=116
+TEMPORARY_DIRECTORY=/home/nicolas/tmp/galatee_tmp
+SELECTED_ITEM_BACKGROUND_COLOR=\#9acd32
+DESCRIPTION_WIDTH=116
