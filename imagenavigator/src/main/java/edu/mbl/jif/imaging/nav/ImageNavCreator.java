@@ -6,7 +6,9 @@ import edu.mbl.jif.imaging.nav.util.FilePathUtils;
 import edu.mbl.jif.imaging.nav.util.PathWatcherObserver;
 
 import edu.mbl.jif.imaging.nav.util.PathWatcher;
-import edu.mbl.jif.imaging.nav.util.StaticSwingUtils;
+import edu.mbl.jif.utils.Prefs;
+import edu.mbl.jif.utils.StaticSwingUtils;
+
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.AbstractAction;
@@ -58,8 +60,8 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
    public ImageNavCreator(ImageNavigator imgNav) {
       this.imgNav = imgNav;
       pathWatcher = new PathWatcher(this);
-      numColumnsGridView = Prefs.getInt(this.getClass(), "numColsGrid", 4);
-      thumbWidth = Prefs.getInt(this.getClass(), "thumbWidth", 64);
+      numColumnsGridView = Prefs.getInt(ImageNavigator.class,"numColsGrid", 4);
+      thumbWidth = Prefs.getInt(ImageNavigator.class,"thumbWidth", 64);
       GalateeProperties.setImage_width(thumbWidth);
       GalateeProperties.setImage_height(thumbWidth);
       fileOpener = new FileOpener();
@@ -75,7 +77,7 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
          numColumns = 1;
          showDescription = true;
       }
-      Prefs.put(this.getClass(), "view", currentView);
+      Prefs.put(ImageNavigator.class,"view", currentView);
       currentGalatee.setView(numColumns, showDescription);
    }
 
@@ -99,8 +101,8 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
 
    public void setThumbnailSize(int size, int panelWidth) {
       numColumnsGridView = (int) Math.floor(panelWidth / ((double) size + 10));
-      Prefs.put(this.getClass(), "numColsGrid", numColumnsGridView);
-      Prefs.put(this.getClass(), "thumbWidth", size);
+      Prefs.put("numColsGrid", numColumnsGridView);
+      Prefs.put("thumbWidth", size);
       this.thumbWidth = size;
       GalateeProperties.setImage_width(thumbWidth);
       GalateeProperties.setImage_height(thumbWidth);

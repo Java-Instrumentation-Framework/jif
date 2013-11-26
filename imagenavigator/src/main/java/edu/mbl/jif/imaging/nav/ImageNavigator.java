@@ -1,4 +1,5 @@
 package edu.mbl.jif.imaging.nav;
+// edu.mbl.jif.imaging.nav.ImageNavigator
 
 import edu.mbl.jif.imaging.nav.dirtree.DirectoryTree;
 import edu.mbl.jif.imaging.nav.dirtree.PopupMenuTree;
@@ -7,7 +8,7 @@ import edu.mbl.jif.imaging.nav.util.IconUtils;
 import edu.mbl.jif.imaging.nav.util.PropsWassup;
 import edu.mbl.jif.imaging.nav.util.TextWindow;
 import edu.mbl.jif.imaging.nav.util.progressmonitor.ModalProgressMonitor;
-import ij.IJ;
+import edu.mbl.jif.utils.Prefs;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -26,7 +27,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,15 +34,13 @@ import javax.swing.JSplitPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-
 import net.trevize.galatee.Galatee;
 
 /**
  *
  * ImageNavigator.java
- *
+ * 
  *
  * @author Grant B. Harris
  */
@@ -162,7 +160,8 @@ public class ImageNavigator {
    private boolean isPlugin = false;  // was launched as a plugin, so don't exit on close
 
    static {        
-      Thread.currentThread().setContextClassLoader(IJ.getClassLoader());
+      //Thread.currentThread().setContextClassLoader(IJ.getClassLoader());
+      // ImageIO Tiff initialization...
       IIORegistry registry = IIORegistry.getDefaultInstance();
       registry.registerServiceProvider(
               new com.sun.media.imageioimpl.plugins.tiff.TIFFImageWriterSpi());
@@ -263,6 +262,7 @@ public class ImageNavigator {
       //Prefs.put(this.getClass(), "key", "Value");
       System.out.println("*** ImageNavigator started ***");
       System.out.println("Initializing...");
+      Prefs.setDefaultClass(this.getClass());
       if (topPath == null) {  // User has control...
          topPath = Prefs.get(this.getClass(), PREF_STARTDIR, "C:/");
          allowNavUp = true;
@@ -374,13 +374,13 @@ public class ImageNavigator {
    }
 
    public void setStartDir(String dir) {
-      Prefs.put(this.getClass(), PREF_STARTDIR, dir);
+      Prefs.put(null, PREF_STARTDIR, dir);
    }
 
    public void setCurrentDirLabel(String dir) {
       labelDir.setText(dir);
       //single.setSelected(true);
-      Prefs.put(this.getClass(), PREF_LASTDIR, dir);
+      Prefs.put(null, PREF_LASTDIR, dir);
    }
 
    public void setSelectedFileLabel(String file) {
@@ -626,7 +626,7 @@ public class ImageNavigator {
 
       public void actionPerformed(ActionEvent e) {
          JComboBox cb = (JComboBox) e.getSource();
-         String size = (String) cb.getSelectedItem();
+         String size = (String) cb.getSelectedItem(); 
          if (size.equalsIgnoreCase("32")) {
             setThumbnailSize(32);
          }

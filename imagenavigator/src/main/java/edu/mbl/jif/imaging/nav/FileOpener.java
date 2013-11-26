@@ -31,8 +31,7 @@ public class FileOpener {
       oit.start();
    }
 
-   void openImagesUsing(final File[] files, String procClassName)
-           throws Exception {
+   void openImagesUsing(final File[] files, String procClassName) throws Exception {
       try {
          DatasetOpener proc = (DatasetOpener) Class.forName(procClassName).newInstance();
          if (proc != null) {
@@ -68,6 +67,7 @@ public class FileOpener {
             openImagesUsing(files, "edu.mbl.jif.imaging.nav.mmgr.ImageOpenerMmgr");
          } catch (Exception ex) {
             System.out.println(".mmgr.ImageOpenerMmgr threw exception");
+            
             try {
                openImagesUsing(files, defaultImageOpener);
                //openWithImageIO(files);

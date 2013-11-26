@@ -739,7 +739,7 @@ public class Galatee extends JPanel implements
    };
    private Action action_vk_down = new GalateeAction() {
       public void actionPerformed(ActionEvent e) {
-         System.out.println("down");
+         // System.out.println("down");
 
          //if any gitem has been selected yet.
          if (table.getSelectedRow() == -1 || table.getSelectedColumn() == -1) {

@@ -3,7 +3,6 @@ package edu.mbl.jif.imaging.nav.mmgr;
 import edu.mbl.jif.imaging.dataset.viewer.DatasetHyperstack;
 import edu.mbl.jif.imaging.nav.DatasetOpener;
 import java.io.File;
-import java.lang.reflect.Method;
 import org.dart.imagej.IJClient;
 import org.dart.imagej.IJClientFactory;
 
@@ -11,6 +10,10 @@ import org.dart.imagej.IJClientFactory;
  *
  * @author GBH
  */
+
+
+// This class is Referenced-by-a-String, so it needs to be explicitly included in an uber-jar
+
 public class ImageOpenerMmgr implements DatasetOpener {
 
    @Override
