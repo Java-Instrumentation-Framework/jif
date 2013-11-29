@@ -49,6 +49,8 @@ import java.util.prefs.Preferences;
  */
 /**
  * Simple utility class that stores and retrieves user preferences.
+ * List<String>
+ * Map<String, String>
  * <p>
  * Some of this code was adapted from the <a href=
  * "http://www.java2s.com/Code/Java/Development-Class/Utilityclassforpreferences.htm" >PrefsUtil
@@ -69,7 +71,6 @@ public final class Prefs {
 
    public static void setDefaultClass(Class clazz) {
       defaultClass = clazz;
-
    }
 
    // -- Helper methods --
@@ -140,53 +141,52 @@ public final class Prefs {
       put(null, name, value);
    }
 
+   public static void put(final String name, final List<String> list) {
+      putList(null, list, name);
+   }
+
    // -- Class-specific preferences --
    public static String get(final Class<?> c, final String name) {
       return get(c, name, null);
    }
 
-   public static String get(final Class<?> c, final String name,
-           final String defaultValue) {
+   public static String get(final Class<?> c, final String name, final String defaultValue) {
       return prefs(c).get(key(c, name), defaultValue);
    }
 
-   public static boolean getBoolean(final Class<?> c, final String name,
-           final boolean defaultValue) {
+   public static boolean getBoolean(final Class<?> c, final String name, final boolean defaultValue) {
       return prefs(c).getBoolean(key(c, name), defaultValue);
    }
 
-   public static double getDouble(final Class<?> c, final String name,
-           final double defaultValue) {
+   public static double getDouble(final Class<?> c, final String name, final double defaultValue) {
       return prefs(c).getDouble(key(c, name), defaultValue);
    }
 
-   public static float getFloat(final Class<?> c, final String name,
-           final float defaultValue) {
+   public static float getFloat(final Class<?> c, final String name, final float defaultValue) {
       return prefs(c).getFloat(key(c, name), defaultValue);
    }
 
-   public static int getInt(final Class<?> c, final String name,
-           final int defaultValue) {
+   public static int getInt(final Class<?> c, final String name, final int defaultValue) {
       return prefs(c).getInt(key(c, name), defaultValue);
    }
 
-   public static long getLong(final Class<?> c, final String name,
-           final long defaultValue) {
+   public static long getLong(final Class<?> c, final String name, final long defaultValue) {
       return prefs(c).getLong(key(c, name), defaultValue);
    }
 
-   public static void put(final Class<?> c, final String name,
-           final String value) {
+   public static List<String> getList(final Class<?> c, final String name) {
+      return getList(prefs(c), key(c, name));
+   }
+
+   public static void put(final Class<?> c, final String name, final String value) {
       prefs(c).put(key(c, name), value);
    }
 
-   public static void put(final Class<?> c, final String name,
-           final boolean value) {
+   public static void put(final Class<?> c, final String name, final boolean value) {
       prefs(c).putBoolean(key(c, name), value);
    }
 
-   public static void put(final Class<?> c, final String name,
-           final double value) {
+   public static void put(final Class<?> c, final String name, final double value) {
       prefs(c).putDouble(key(c, name), value);
    }
 
@@ -200,6 +200,10 @@ public final class Prefs {
 
    public static void put(final Class<?> c, final String name, final long value) {
       prefs(c).putLong(key(c, name), value);
+   }
+
+   public static void put(final Class<?> c, final String name, final List<String> list) {
+      putList(prefs(c), list, key(c, name));
    }
 
    public static void clear(final Class<?> c) {
@@ -257,8 +261,9 @@ public final class Prefs {
       }
    }
 
+//<editor-fold defaultstate="collapsed" desc="Map">
    /**
-    * Puts a list into the preferences.
+    * Puts a Map into the preferences.
     */
    public static void putMap(final Map<String, String> map, final String key) {
       putMap(prefs(null), map, key);
@@ -316,7 +321,9 @@ public final class Prefs {
       }
       return map;
    }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="List">
    /**
     * Puts a list into the preferences.
     */
@@ -372,11 +379,12 @@ public final class Prefs {
       }
       return list;
    }
+//</editor-fold>
 
    public static void main(String[] args) {
       Prefs.setDefaultClass(Prefs.class);
       Prefs.put("Test.String", "String that is being tested.");
-   
+
    }
 
    public void testMap() {
