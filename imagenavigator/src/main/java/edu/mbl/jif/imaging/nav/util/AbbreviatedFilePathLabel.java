@@ -20,7 +20,6 @@ public class AbbreviatedFilePathLabel extends JLabel {
 
    public AbbreviatedFilePathLabel(String text, int length) {
       super();
-      
       setLength(length);
       setText(text);
    }

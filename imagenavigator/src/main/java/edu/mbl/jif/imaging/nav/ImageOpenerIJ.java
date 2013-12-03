@@ -1,11 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.mbl.jif.imaging.nav;
 
 import java.io.File;
-import org.dart.imagej.IJRunner;
+import java.io.IOException;
+import org.dart.imagej.IJClient;
+import org.dart.imagej.IJClientFactory;
 
 /**
  *
@@ -15,7 +13,16 @@ public class ImageOpenerIJ implements DatasetOpener {
 
    @Override
    public void openDataset(File[] files) {
-      IJRunner.runImageJ(files, null);
+      IJClient ijClient = IJClientFactory.getIJClient(false);
+      for (File file : files) {
+         try {
+            ijClient.openImage(file);
+         } catch (IOException ex) {
+            
+         }
+      //IJRunner.runImageJ(files, null);
+      }
+      
    }
    
    

@@ -2,6 +2,7 @@ package edu.mbl.jif.imaging.nav.mmgr;
 
 import edu.mbl.jif.imaging.dataset.viewer.DatasetHyperstack;
 import edu.mbl.jif.imaging.nav.DatasetOpener;
+import ij.IJ;
 import java.io.File;
 import org.dart.imagej.IJClient;
 import org.dart.imagej.IJClientFactory;
@@ -28,8 +29,9 @@ public class ImageOpenerMmgr implements DatasetOpener {
          rootDir = rootDir.substring(0, rootDir.length() - (name.length() + 1));
          new DatasetHyperstack(rootDir, name).createImagePlus().show();
       }
-
    }
+   
+ 
 //   @Override
 //   public void openDataset(File[] files) throws Exception {
 //      try {
@@ -54,4 +56,6 @@ public class ImageOpenerMmgr implements DatasetOpener {
 //         throw ex;
 //      }
 //   }
+
+   
 }

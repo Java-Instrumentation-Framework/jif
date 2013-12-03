@@ -17,6 +17,7 @@
  */
 package edu.mbl.jif.imaging.nav.dirtree;
 
+import edu.mbl.jif.utils.StaticSwingUtils;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -87,8 +88,14 @@ public class DirectoryTree extends JPanel implements TreeSelectionListener {
    public void setStartIn(String startInStr) {
       File startInFile = new File(startInStr);
       if (startInFile != null) {
-         FolderNode startIn = new FolderNode(startInFile);
-         treeModel.setRoot(startIn);
+         final FolderNode startInNode = new FolderNode(startInFile);
+         treeModel.setRoot(startInNode);
+         StaticSwingUtils.dispatchToEDT(new Runnable() {
+            public void run() {
+               dirTree.setSelectionPath( new TreePath( startInNode.getPath() ) );
+               dirTree.repaint();
+            }
+         });
       }
    }
 
@@ -133,22 +140,21 @@ public class DirectoryTree extends JPanel implements TreeSelectionListener {
    // Open to this Dir node...
    // GBH added this... 
    public void openDirNode(String dirPath) {
-
       StringTokenizer st2 = new StringTokenizer(dirPath, "/");
-      String[] strArray = new String[st2.countTokens()-1];
+      String[] strArray = new String[st2.countTokens() - 1];
       int n = 0;
       while (st2.hasMoreElements()) {
-         
-         if(n==0) 
+
+         if (n == 0) {
             st2.nextElement();
-         else 
-            strArray[n-1] = (String) st2.nextElement();
+         } else {
+            strArray[n - 1] = (String) st2.nextElement();
+         }
          n++;
       }
       TreePath treePath = findByName(dirTree, strArray);
-      
-      //TreePath path = traverse(dirTree, dirPath);
 
+      //TreePath path = traverse(dirTree, dirPath);
 //      TreePath path = find((DefaultMutableTreeNode) dirTree.getModel().getRoot(), dirPath);
 //      if (path != null) {
 //         // dirTree.setExpandsSelectedPaths(true);
@@ -163,7 +169,7 @@ public class DirectoryTree extends JPanel implements TreeSelectionListener {
    private TreePath find(DefaultMutableTreeNode root, String s) {
       @SuppressWarnings("unchecked")
       Enumeration<DefaultMutableTreeNode> e = root.breadthFirstEnumeration();
-      
+
       while (e.hasMoreElements()) {
          DefaultMutableTreeNode node = e.nextElement();
          String sNode = node.toString();
@@ -289,9 +295,8 @@ public class DirectoryTree extends JPanel implements TreeSelectionListener {
       }
       return null;
    }
-   
-   //=========================================================================================
 
+   //=========================================================================================
    private class SystemIconRenderer extends DefaultTreeCellRenderer {
 
       public Component getTreeCellRendererComponent(JTree tree, Object value,
@@ -389,10 +394,9 @@ public class DirectoryTree extends JPanel implements TreeSelectionListener {
       }
    }
 
-   
    //<editor-fold defaultstate="collapsed" desc="PopupMenu">
    class PopupTrigger extends MouseAdapter {
-      
+
       @Override
       public void mouseReleased(MouseEvent e) {
          if (e.isPopupTrigger()) {
@@ -416,17 +420,16 @@ public class DirectoryTree extends JPanel implements TreeSelectionListener {
       }
    }
    //
-   
+
    public void setPopup_menu(PopupMenuTree jPopupMenu) {
       this.popup_menu = jPopupMenu;
    }
-   
+
    public JPopupMenu getPopup_menu() {
       return popup_menu;
    }
    //</editor-fold>
 
-   
    //   public void addTreeListener() {
 //
 //      dirTree.addMouseListener(new MouseAdapter() {

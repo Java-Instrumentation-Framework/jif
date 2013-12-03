@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 //import net.trevize.tinker.ImageUtils;
-
 import com.davidsoergel.conja.Function;
 import com.davidsoergel.conja.Parallel;
 import com.sun.media.jai.codec.SeekableStream;
+import edu.mbl.jif.imaging.dataset.MMgrDatasetAccessor;
+import edu.mbl.jif.imaging.dataset.util.DatasetUtils;
+import edu.mbl.jif.imaging.nav.FileOpener;
 import edu.mbl.jif.imaging.nav.util.Histogram;
 import java.awt.image.RescaleOp;
+import org.json.JSONObject;
 
 /**
  * This class is used for the Galatee image viewer.
@@ -61,25 +64,57 @@ public class ImageLoaderThread extends Thread {
          Function<GItem, Void> loadImageFunction = new Function<GItem, Void>() {
             public Void apply(GItem gitem) {
                BufferedImage image = null;
+               String metaDataString = null;
                if (gitem.getUri().getScheme().equals("tar")) {
                   // special behavior: is the URI schema is tar, we access the file using Apache Common VFS.
                   InputStream gitem_is = gitem.getInputStream();
                   image = ImageUtils.JAI_loadAndResizeImage(imageWidth,
                           imageHeight, SeekableStream.wrapInputStream(
-                          gitem_is, true), true);
+                                  gitem_is, true), true);
                   try {
                      gitem_is.close();
                   } catch (IOException e) {
                      e.printStackTrace();
                   }
                } else {  // from local file
+                  //======================================================================
                   // TODO GBH here is where we will read metadata...
-                  try {
-                     image = ImageUtils.JAI_loadAndResizeImage(imageWidth,
-                             imageHeight, gitem.getLocalFilepath(), true);
-                  } catch (Exception e) {
-                     e.printStackTrace();
-                  }
+                  // if it is a MM dataset...
+                  // Open it and get summary metadata...
+                  //======================================================================▐
+                  boolean isMMDataset = FileOpener.isMicroManagerType(gitem.getLocalFilepath());
+//                  if (isMMDataset) {
+//                     try {
+//                        String[] paths = DatasetUtils.parsePath(gitem.getLocalFilepath());
+//                        MMgrDatasetAccessor mmdp = new MMgrDatasetAccessor(paths[0], paths[1],
+//                                true, false);
+//                        //JSONObject sumMD = mmdp.getImageCache().getSummaryMetadata();
+//                        String comment = mmdp.getImageCache().getComment();
+//                        if (comment != null) {
+//                           metaDataString = "\n" + comment;
+//                        }
+//                     } catch (Exception ex) {
+//                        System.err.println("Cannot open dataset: " + gitem.getLocalFilepath());
+//                     }
+//                     try {
+//                        image = ImageUtils.JAI_loadAndResizeImage(imageWidth,
+//                                imageHeight, gitem.getLocalFilepath(), true);
+//                     } catch (Exception e) {
+//                        // exception may be thrown here, but no problem,
+//                        // as it is mlib accelerator for JAI...
+//                        // e.printStackTrace();
+//                     }
+//
+//                  } else {
+                     try {
+                        image = ImageUtils.JAI_loadAndResizeImage(imageWidth,
+                                imageHeight, gitem.getLocalFilepath(), true);
+                     } catch (Exception e) {
+                        // exception may be thrown here, but no problem,
+                        // as it is mlib accelerator for JAI...
+                        // e.printStackTrace();
+                     }
+                  //}
                }
                if (image == null) {
                   image = Galatee.imageLoadingError;
@@ -98,7 +133,14 @@ public class ImageLoaderThread extends Thread {
                } else {
                   gitem.setImage(image);
                }
-               //gitem.setText(gitem.getText() + "\nSomething more...");  // <<<<<<<<<<<<<<<<<<<<<<<<<<< GBH
+               // Add to description ========================================================
+               if (!gitem.wasMetadataAdded()) {  // prevent adding it more than once.
+                  if (metaDataString != null) {
+                     gitem.setText(gitem.getText() + metaDataString);
+                  }
+                  gitem.setMetadataAdded(true);
+               }
+               // ===========================================================================
                galatee.getTable().repaint(galatee.getTable().getVisibleRect());
                // if needed we keep the selected cell still in the visible rectangle of the JTable.
                synchronized (galatee) {
@@ -107,7 +149,7 @@ public class ImageLoaderThread extends Thread {
                   if (galatee.isKeep_selected_cell_visible()
                           && selected_row != -1 && selected_column != -1) {
                      galatee.getTable().scrollRectToVisible(
-                             galatee.getTable().getCellRect(selected_row,selected_column, true));
+                             galatee.getTable().getCellRect(selected_row, selected_column, true));
                   }
                }
                gi_list.processingEndedFor(gitem);

@@ -34,7 +34,7 @@ public class Histogram {
     */
    public Histogram(BufferedImage image) {
       setImage(image);
-      histpanel = new HPanel();
+      // histpanel = new HPanel();
    }
 
    /**

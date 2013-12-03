@@ -20,6 +20,7 @@ public class GItem {
    private String local_filepath;
    private BufferedImage image;
    private String text;
+   private boolean metadataAdded = false;
    private boolean chosen;
    private Vector<Object> data;
 
@@ -103,4 +104,13 @@ public class GItem {
    public void setUri(URI uri) {
       this.uri = uri;
    }
+
+   public boolean wasMetadataAdded() {
+      return metadataAdded;
+   }
+
+   public void setMetadataAdded(boolean metadataAdded) {
+      this.metadataAdded = metadataAdded;
+   }
+   
 }

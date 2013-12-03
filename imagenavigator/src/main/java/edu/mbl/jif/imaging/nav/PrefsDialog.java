@@ -13,8 +13,11 @@ public class PrefsDialog extends javax.swing.JDialog {
    /**
     * Creates new form PrefsDialog
     */
-   public PrefsDialog(java.awt.Frame parent, boolean modal) {
+   ImageNavigator imgNav;
+   
+   public PrefsDialog(ImageNavigator imgNav, java.awt.Frame parent, boolean modal) {
       super(parent, modal);
+      this.imgNav = imgNav;
       initComponents();
    }
 
@@ -26,15 +29,27 @@ public class PrefsDialog extends javax.swing.JDialog {
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents() {
 
+      jSlider1 = new javax.swing.JSlider();
       panelFilePrefs = new javax.swing.JPanel();
       jLabel4 = new javax.swing.JLabel();
+      clearFavsButton = new javax.swing.JButton();
       panelDisplayPrefs = new javax.swing.JPanel();
+      jCheckBox1 = new javax.swing.JCheckBox();
+      jCheckBox2 = new javax.swing.JCheckBox();
+      jCheckBox3 = new javax.swing.JCheckBox();
       jLabel1 = new javax.swing.JLabel();
-      jLabel2 = new javax.swing.JLabel();
-      jPanel1 = new javax.swing.JPanel();
-      jLabel3 = new javax.swing.JLabel();
+      jSpinner1 = new javax.swing.JSpinner();
       jPanel2 = new javax.swing.JPanel();
       resetPrefsButton = new javax.swing.JButton();
+      imgTypePanel = new javax.swing.JPanel();
+      jPanel3 = new javax.swing.JPanel();
+      mmCheck = new javax.swing.JCheckBox();
+      omeCheck = new javax.swing.JCheckBox();
+      tifCheck = new javax.swing.JCheckBox();
+      jPanel1 = new javax.swing.JPanel();
+      jpgCheck = new javax.swing.JCheckBox();
+      gifCheck = new javax.swing.JCheckBox();
+      pngCheck = new javax.swing.JCheckBox();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
       setTitle("ImageNavigator Preferences");
@@ -43,28 +58,38 @@ public class PrefsDialog extends javax.swing.JDialog {
 
       jLabel4.setText("Make Current Directory the Default");
 
+      clearFavsButton.setText("Clear Favorites");
+
       javax.swing.GroupLayout panelFilePrefsLayout = new javax.swing.GroupLayout(panelFilePrefs);
       panelFilePrefs.setLayout(panelFilePrefsLayout);
       panelFilePrefsLayout.setHorizontalGroup(
          panelFilePrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(panelFilePrefsLayout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jLabel4)
-            .addContainerGap(197, Short.MAX_VALUE))
+            .addGroup(panelFilePrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addComponent(jLabel4)
+               .addComponent(clearFavsButton))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       panelFilePrefsLayout.setVerticalGroup(
          panelFilePrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(panelFilePrefsLayout.createSequentialGroup()
             .addContainerGap()
             .addComponent(jLabel4)
-            .addContainerGap(75, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(clearFavsButton)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
 
       panelDisplayPrefs.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-      jLabel1.setText("Columns in Grid View");
+      jCheckBox1.setText("Metadata, show:");
 
-      jLabel2.setText("jLabel2");
+      jCheckBox2.setText("type");
+
+      jCheckBox3.setText("comment");
+
+      jLabel1.setText("Columns in table view:");
 
       javax.swing.GroupLayout panelDisplayPrefsLayout = new javax.swing.GroupLayout(panelDisplayPrefs);
       panelDisplayPrefs.setLayout(panelDisplayPrefsLayout);
@@ -73,42 +98,36 @@ public class PrefsDialog extends javax.swing.JDialog {
          .addGroup(panelDisplayPrefsLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(panelDisplayPrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jLabel1)
-               .addComponent(jLabel2))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDisplayPrefsLayout.createSequentialGroup()
+                  .addComponent(jLabel1)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(50, 50, 50)
+                  .addComponent(jCheckBox1)
+                  .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDisplayPrefsLayout.createSequentialGroup()
+                  .addGap(0, 0, Short.MAX_VALUE)
+                  .addGroup(panelDisplayPrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(jCheckBox3)
+                     .addComponent(jCheckBox2))
+                  .addGap(68, 68, 68))))
       );
       panelDisplayPrefsLayout.setVerticalGroup(
          panelDisplayPrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(panelDisplayPrefsLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jLabel1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jLabel2)
-            .addContainerGap(50, Short.MAX_VALUE))
-      );
-
-      jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-      jLabel3.setText("Open With (default)");
-
-      javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-      jPanel1.setLayout(jPanel1Layout);
-      jPanel1Layout.setHorizontalGroup(
-         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jLabel3)
+            .addGap(25, 25, 25)
+            .addGroup(panelDisplayPrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jCheckBox1)
+               .addComponent(jLabel1)
+               .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jCheckBox2)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jCheckBox3)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
-      jPanel1Layout.setVerticalGroup(
-         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jLabel3)
-            .addContainerGap(43, Short.MAX_VALUE))
-      );
 
-      resetPrefsButton.setText("Reset Options");
+      resetPrefsButton.setText("Reset All Options");
       resetPrefsButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
             resetPrefsButtonActionPerformed(evt);
@@ -120,43 +139,131 @@ public class PrefsDialog extends javax.swing.JDialog {
       jPanel2Layout.setHorizontalGroup(
          jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel2Layout.createSequentialGroup()
-            .addContainerGap()
+            .addGap(20, 20, 20)
             .addComponent(resetPrefsButton)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       jPanel2Layout.setVerticalGroup(
          jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel2Layout.createSequentialGroup()
-            .addGap(24, 24, 24)
+            .addContainerGap(35, Short.MAX_VALUE)
             .addComponent(resetPrefsButton)
-            .addContainerGap(53, Short.MAX_VALUE))
+            .addGap(19, 19, 19))
+      );
+
+      imgTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Image Types"));
+
+      jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+      mmCheck.setText("Micro-Manager Datasets (.tif)");
+
+      omeCheck.setText("OME-Tiff");
+
+      tifCheck.setText("tif");
+
+      javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+      jPanel3.setLayout(jPanel3Layout);
+      jPanel3Layout.setHorizontalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addContainerGap(9, Short.MAX_VALUE)
+            .addComponent(tifCheck)
+            .addGap(18, 18, 18)
+            .addComponent(mmCheck)
+            .addGap(18, 18, 18)
+            .addComponent(omeCheck)
+            .addGap(22, 22, 22))
+      );
+      jPanel3Layout.setVerticalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(mmCheck)
+               .addComponent(omeCheck)
+               .addComponent(tifCheck)))
+      );
+
+      jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+      jpgCheck.setText("jpg");
+
+      gifCheck.setText("gif");
+
+      pngCheck.setText("png");
+      pngCheck.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            pngCheckActionPerformed(evt);
+         }
+      });
+
+      javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+      jPanel1.setLayout(jPanel1Layout);
+      jPanel1Layout.setHorizontalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jpgCheck)
+            .addGap(10, 10, 10)
+            .addComponent(gifCheck)
+            .addGap(18, 18, 18)
+            .addComponent(pngCheck)
+            .addContainerGap(181, Short.MAX_VALUE))
+      );
+      jPanel1Layout.setVerticalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jpgCheck)
+               .addComponent(gifCheck)
+               .addComponent(pngCheck)))
+      );
+
+      javax.swing.GroupLayout imgTypePanelLayout = new javax.swing.GroupLayout(imgTypePanel);
+      imgTypePanel.setLayout(imgTypePanelLayout);
+      imgTypePanelLayout.setHorizontalGroup(
+         imgTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(imgTypePanelLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(imgTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(90, Short.MAX_VALUE))
+      );
+      imgTypePanelLayout.setVerticalGroup(
+         imgTypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(imgTypePanelLayout.createSequentialGroup()
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(layout.createSequentialGroup()
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-               .addComponent(panelFilePrefs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-               .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-               .addComponent(panelDisplayPrefs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+               .addComponent(imgTypePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(panelFilePrefs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(panelDisplayPrefs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap())
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGap(23, 23, 23)
+            .addContainerGap(23, Short.MAX_VALUE)
             .addComponent(panelFilePrefs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGap(27, 27, 27)
+            .addComponent(imgTypePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
             .addComponent(panelDisplayPrefs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
       );
 
       pack();
@@ -166,56 +273,32 @@ public class PrefsDialog extends javax.swing.JDialog {
       
    }//GEN-LAST:event_resetPrefsButtonActionPerformed
 
-   /**
-    * @param args the command line arguments
-    */
-   public static void main(String args[]) {
-      /* Set the Nimbus look and feel */
-      //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-       * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-       */
-      try {
-         for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-               javax.swing.UIManager.setLookAndFeel(info.getClassName());
-               break;
-            }
-         }
-      } catch (ClassNotFoundException ex) {
-         java.util.logging.Logger.getLogger(PrefsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      } catch (InstantiationException ex) {
-         java.util.logging.Logger.getLogger(PrefsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      } catch (IllegalAccessException ex) {
-         java.util.logging.Logger.getLogger(PrefsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-         java.util.logging.Logger.getLogger(PrefsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      }
-      //</editor-fold>
+   private void pngCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pngCheckActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_pngCheckActionPerformed
 
-      /* Create and display the dialog */
-      java.awt.EventQueue.invokeLater(new Runnable() {
-         public void run() {
-            PrefsDialog dialog = new PrefsDialog(new javax.swing.JFrame(), true);
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-               @Override
-               public void windowClosing(java.awt.event.WindowEvent e) {
-                  System.exit(0);
-               }
-            });
-            dialog.setVisible(true);
-         }
-      });
-   }
+   
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JButton clearFavsButton;
+   private javax.swing.JCheckBox gifCheck;
+   private javax.swing.JPanel imgTypePanel;
+   private javax.swing.JCheckBox jCheckBox1;
+   private javax.swing.JCheckBox jCheckBox2;
+   private javax.swing.JCheckBox jCheckBox3;
    private javax.swing.JLabel jLabel1;
-   private javax.swing.JLabel jLabel2;
-   private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JPanel jPanel2;
+   private javax.swing.JPanel jPanel3;
+   private javax.swing.JSlider jSlider1;
+   private javax.swing.JSpinner jSpinner1;
+   private javax.swing.JCheckBox jpgCheck;
+   private javax.swing.JCheckBox mmCheck;
+   private javax.swing.JCheckBox omeCheck;
    private javax.swing.JPanel panelDisplayPrefs;
    private javax.swing.JPanel panelFilePrefs;
+   private javax.swing.JCheckBox pngCheck;
    private javax.swing.JButton resetPrefsButton;
+   private javax.swing.JCheckBox tifCheck;
    // End of variables declaration//GEN-END:variables
 }

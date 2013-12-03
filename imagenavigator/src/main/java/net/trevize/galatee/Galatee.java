@@ -304,9 +304,9 @@ public class Galatee extends JPanel implements
          if (data != null) {
             //setting the data.
             gi.setData(data.get(i));
-            //setting the description. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            // Set the description. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
             String desc = data.get(i).get(0).toString();
-            // 
+            // >>>>>>>>>>>>>>>>>>>>>>>
             gi.setText(desc);
          }
          gitems.add(gi);

@@ -186,11 +186,12 @@ public class FilePathUtils {
       String root = "C:\\MicroManagerData\\Test";
       String target = "C:\\MicroManagerData\\Test\\dataXMT16_1\\dataXMT16_MMImages_Pos0.ome.tif";
       System.out.println("" + root + "  :::  " + target);
+      System.out.println("limitPath: " + limitPath(target, 55));
       String result = FilePathUtils.getRelativePath(root, target);
       System.out.println(result);
       root = FilePathUtils.forceForwardSlashes(root);
       target = FilePathUtils.forceForwardSlashes(target);
       System.out.println("commonPath = " + FilePathUtils.commonPath(new String[]{root, target}));
-      
+      System.out.println("limitPath(/): " + limitPath(target, 55));
    }
 }

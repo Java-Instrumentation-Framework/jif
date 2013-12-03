@@ -7,14 +7,17 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.tree.*;
 
 /*
  * The Popup Menu that appears on nodes in the directory tree.
-*/
+ */
 @SuppressWarnings("serial")
 public class PopupMenuTree extends JPopupMenu {
 
@@ -104,8 +107,39 @@ public class PopupMenuTree extends JPopupMenu {
 //            tree.repaint();
 //         }
 //      });
-      
-      // TODO Add CopyPath to clipboard
+
+      add(menuItem = new JMenuItem("Set as top directory"));
+      //menuItem.setIcon(new ImageIcon("copy.png"));
+      menuItem.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent ae) {
+            //String str = curNode.toString();
+            String str = ((File) curNode.getUserObject()).getAbsolutePath();
+            PopupMenuTree.this.imageNavigator.setDefaultTopPath(str);
+         }
+      });
+      //
+      add(menuItem = new JMenuItem("Add to Favorites"));
+      //menuItem.setIcon(new ImageIcon("copy.png"));
+      menuItem.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent ae) {
+            //String str = curNode.toString();
+            String str = ((File) curNode.getUserObject()).getAbsolutePath();
+            PopupMenuTree.this.imageNavigator.addToFavoritePaths(str);
+         }
+      });
+      add(menuItem = new JMenuItem("Open in Explorer"));
+      //menuItem.setIcon(new ImageIcon("copy.png"));
+      menuItem.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent ae) {
+            try {
+               String path = ((File) curNode.getUserObject()).getAbsolutePath();
+               java.awt.Desktop.getDesktop().open(new java.io.File(path));
+            } catch (IOException ex) {
+               Logger.getLogger(PopupMenuTree.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+         }
+      });
       add(menuItem = new JMenuItem("Copy path"));
       //menuItem.setIcon(new ImageIcon("copy.png"));
       menuItem.addActionListener(new ActionListener() {
@@ -115,17 +149,6 @@ public class PopupMenuTree extends JPopupMenu {
             StringSelection stringSelection = new StringSelection(str);
             Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
             clpbrd.setContents(stringSelection, null);
-         }
-      });
-      //
-      add(menuItem = new JMenuItem("Set as top directory"));
-      //menuItem.setIcon(new ImageIcon("copy.png"));
-      menuItem.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent ae) {
-            //String str = curNode.toString();
-            String str = ((File) curNode.getUserObject()).getAbsolutePath();
-            PopupMenuTree.this.imageNavigator.setDefaultTopPath(str);
-
          }
       });
    }

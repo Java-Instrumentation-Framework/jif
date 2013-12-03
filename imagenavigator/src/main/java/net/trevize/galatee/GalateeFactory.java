@@ -26,6 +26,33 @@ public class GalateeFactory {
    static String topDir = "";
 
    public static Galatee loadDatasetFromDirectory(String dir_path,
+           boolean recursive, boolean firstOnly, int numColumns, 
+           int thumbSize,
+           boolean showDescription, int descriptionWidth, boolean equalizeHisto) {
+      Vector<URI> v_uri = new Vector<URI>();
+      Vector<Vector<Object>> v_object = new Vector<Vector<Object>>();
+      File dir = new File(dir_path);
+      if (!hasSubDirectories(dir)) {
+         recursive = false;
+      }
+      if (!recursive) {
+         firstOnly = false;
+      }
+      topDir = dir_path;
+      // diag...
+      File tdir = new File(topDir);
+      System.out.println("tdir.isDirectory(): " + tdir.isDirectory() + " >> " + topDir);
+      //
+      
+      getFilesRec(dir, v_uri, v_object, recursive, firstOnly);
+
+      Galatee g = new Galatee(v_uri, v_object,
+              new Dimension(thumbSize,thumbSize),
+              descriptionWidth, numColumns, showDescription, equalizeHisto);
+      return g;
+   }
+
+   public static Galatee loadDatasetFromDirectory(String dir_path,
            boolean recursive, boolean firstOnly, int numColumns, boolean showDescription, boolean equalizeHisto) {
       Vector<URI> v_uri = new Vector<URI>();
       Vector<Vector<Object>> v_object = new Vector<Vector<Object>>();
@@ -37,6 +64,7 @@ public class GalateeFactory {
          firstOnly = false;
       }
       topDir = dir_path;
+      
       getFilesRec(dir, v_uri, v_object, recursive, firstOnly);
 
       Galatee g = new Galatee(v_uri, v_object,
@@ -48,30 +76,34 @@ public class GalateeFactory {
       return g;
    }
    
-   public static Galatee loadDatasetFromDirectory(String dir_path,
-           boolean recursive, boolean firstOnly) {
-      Vector<URI> v_uri = new Vector<URI>();
-      Vector<Vector<Object>> v_object = new Vector<Vector<Object>>();
-      File dir = new File(dir_path);
-      if (!hasSubDirectories(dir)) {
-         recursive = false;
-      }
-      if (!recursive) {
-         firstOnly = false;
-      }
-      getFilesRec(dir, v_uri, v_object, recursive, firstOnly);
+//   public static Galatee loadDatasetFromDirectory(String dir_path,
+//           boolean recursive, boolean firstOnly) {
+//      Vector<URI> v_uri = new Vector<URI>();
+//      Vector<Vector<Object>> v_object = new Vector<Vector<Object>>();
+//      File dir = new File(dir_path);
+//      if (!hasSubDirectories(dir)) {
+//         recursive = false;
+//      }
+//      if (!recursive) {
+//         firstOnly = false;
+//      }
+//      getFilesRec(dir, v_uri, v_object, recursive, firstOnly);
+//
+//      Galatee g = new Galatee(v_uri, v_object,
+//              new Dimension(GalateeProperties.getImage_width(),
+//              GalateeProperties.getImage_height()),
+//              GalateeProperties.getDescription_width(),
+//              GalateeProperties.getNumber_of_column());
+//      return g;
+//   }
 
-      Galatee g = new Galatee(v_uri, v_object,
-              new Dimension(GalateeProperties.getImage_width(),
-              GalateeProperties.getImage_height()),
-              GalateeProperties.getDescription_width(),
-              GalateeProperties.getNumber_of_column());
-      return g;
-   }
-
-   private static void getFilesRec(File dir, Vector<URI> v_uri,
-           Vector<Vector<Object>> v_object, boolean recurse, boolean firstOnly) {
+   // This is 
+   private static void getFilesRec(File dir, 
+           Vector<URI> v_uri,
+           Vector<Vector<Object>> v_object, 
+           boolean recurse, boolean firstOnly) {
       File[] children = dir.listFiles();
+      if(children==null) return;
       Arrays.sort(children, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
       boolean didFirst = false;
       for (int i = 0; i < children.length; ++i) {
@@ -93,14 +125,15 @@ public class GalateeFactory {
                      Vector<Object> v = new Vector<Object>();
                      //
                      // Set the description... <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                     
-                     v.add(FilePathUtils.getRelativePath(topDir,children[i].getParentFile().getAbsolutePath()) +
-                             "/\n" + children[i].getName());
-                     
-                     // v.add(children[i].getParentFile().getName() + "/\n" + children[i].getName());
-                     //v.add(children[i].getParentFile().getAbsolutePath() + "/\n" + children[i].getName());
-                     // v.add(children[i].getName());
-                     //
+                     // relative path and filename
+                     String relPath = FilePathUtils.getRelativePath(topDir,
+                             children[i].getParentFile().getAbsolutePath());
+                     if(relPath.equalsIgnoreCase(".")) {
+                     v.add(children[i].getName());
+                     } else {
+                     v.add(relPath + "/\n" + children[i].getName());   
+                     }
+                     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                      v_object.add(v);
                      if (firstOnly) {
                         didFirst = true;
@@ -114,6 +147,7 @@ public class GalateeFactory {
 
    private static boolean hasSubDirectories(File dir) {
       File[] children = dir.listFiles();
+      if(children==null) return false;
       for (int i = 0; i < children.length; ++i) {
          File child = children[i];
          if (child.isDirectory()) {
@@ -124,7 +158,7 @@ public class GalateeFactory {
    }
 
    // ======================================================================
-   // From here on could be elliminated....
+   // From here on could be elliminated.... UNUSED... 
    public static Galatee loadLocalDatasetFromFile(String filepath,
            String prefix) {
       //loading files and metadata.
