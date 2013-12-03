@@ -4,7 +4,7 @@ package edu.mbl.jif.gui.imaging.zoom;
 import edu.mbl.jif.imaging.stats.ImageStatistics;
 import edu.mbl.jif.imaging.stats.ImageAnalyzer;
 import edu.mbl.jif.imaging.stats.Equalizer;
-import edu.mbl.jif.gui.util.StaticSwingUtils;
+import edu.mbl.jif.utils.StaticSwingUtils;
 import edu.mbl.jif.gui.imaging.GraphicOverlay;
 import edu.mbl.jif.gui.imaging.ImageDisplayPanel;
 import edu.mbl.jif.gui.imaging.event.PixelChangeEvent;

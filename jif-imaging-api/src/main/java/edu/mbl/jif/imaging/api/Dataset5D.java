@@ -1,5 +1,5 @@
 
-package edu.mbl.jif.imaging;
+package edu.mbl.jif.imaging.api;
 
 import edu.mbl.jif.imaging.api.SeriesOfImages;
 import java.awt.image.BufferedImage;

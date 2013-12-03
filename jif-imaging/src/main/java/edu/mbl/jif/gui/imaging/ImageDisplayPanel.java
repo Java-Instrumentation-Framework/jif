@@ -5,7 +5,7 @@ import edu.mbl.jif.gui.imaging.event.RoiChangeListener;
 import edu.mbl.jif.gui.imaging.event.RoiChangedWeakListener;
 import edu.mbl.jif.gui.imaging.magnify.MagnifyImageFilter;
 import edu.mbl.jif.gui.imaging.zoom.ImagePanelZoomable;
-import edu.mbl.jif.gui.util.StaticSwingUtils;
+import edu.mbl.jif.utils.StaticSwingUtils;
 import edu.mbl.jif.gui.imaging.event.PixelChangeListener;
 import edu.mbl.jif.gui.imaging.event.PixelChangedWeakListener;
 import edu.mbl.jif.gui.imaging.zoom.core.ZoomScrollPane;

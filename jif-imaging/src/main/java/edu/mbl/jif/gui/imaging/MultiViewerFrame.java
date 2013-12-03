@@ -1,7 +1,7 @@
 package edu.mbl.jif.gui.imaging;
 
 import edu.mbl.jif.imaging.util.ImageFactoryGrayScale;
-import edu.mbl.jif.gui.util.StaticSwingUtils;
+import edu.mbl.jif.utils.StaticSwingUtils;
 import edu.mbl.jif.gui.imaging.zoom.core.ZoomGraphics;
 import edu.mbl.jif.imaging.*;
 import edu.mbl.jif.imaging.util.GraphicsUtilities;

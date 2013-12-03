@@ -21,6 +21,21 @@ package edu.mbl.jif.utils;
  * $Id: EntityInspector.java,v 1.9 2013/04/24 22:51:31 mg Exp $
  */
 
+/*
+A simple class to inspect Java objects content. It provides the following functionality:
+
+    Inspection result is generated as a String. This is useful for logging.
+    Each inspected variable displayed as class name = value in familiar Java object declaration style.
+    All variables are inspected recursively. Child variables are indented for nice formatting.
+    The variable inspection recursion stops after reaching specified class or package.
+    The list with excluded from inspection classes could be modified.
+    The default list with excluded from inspection classes contains standard Java packages, 
+         some common libraries and Hibernate byte code generation libraries.
+    Arrays and collections inspection is supported for any types of objects.
+    Arrays and collections content in the output could be limited.
+
+*/
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

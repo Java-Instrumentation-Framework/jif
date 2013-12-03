@@ -1,7 +1,7 @@
 package edu.mbl.jif.gui.imaging.player;
 
 import edu.mbl.jif.gui.slider.SpinInteger;
-import edu.mbl.jif.gui.util.StaticSwingUtils;
+import edu.mbl.jif.utils.StaticSwingUtils;
 import edu.mbl.jif.gui.*;
 import edu.mbl.jif.utils.JifUtils;
 

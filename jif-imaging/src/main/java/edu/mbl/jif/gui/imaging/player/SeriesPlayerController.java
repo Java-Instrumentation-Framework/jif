@@ -1,6 +1,6 @@
 package edu.mbl.jif.gui.imaging.player;
 
-import edu.mbl.jif.gui.util.StaticSwingUtils;
+import edu.mbl.jif.utils.StaticSwingUtils;
 import edu.mbl.jif.imaging.tiff.MultipageTiffFile;
 import edu.mbl.jif.utils.JifUtils;
 import edu.mbl.jif.utils.prefs.Prefs;

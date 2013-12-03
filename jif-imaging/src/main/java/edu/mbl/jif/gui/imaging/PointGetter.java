@@ -1,7 +1,7 @@
 package edu.mbl.jif.gui.imaging;
 
 import edu.mbl.jif.gui.imaging.zoom.ImagePanelZoomable;
-import edu.mbl.jif.gui.util.StaticSwingUtils;
+import edu.mbl.jif.utils.StaticSwingUtils;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;

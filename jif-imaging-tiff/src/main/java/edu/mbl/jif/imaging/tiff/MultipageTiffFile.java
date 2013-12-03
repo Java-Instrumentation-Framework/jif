@@ -171,6 +171,8 @@ public class MultipageTiffFile {
          writable = false;
       }
    }
+   
+   // TODO someday - This allows only one listener
    SeriesFileListener listener;
 
    public void addSeriesFileListener(SeriesFileListener listener) {
