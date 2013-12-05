@@ -300,16 +300,7 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
          }
       };
    }
-//
-//   private static String getRelativePath(String pathOfFile, String containingPath) {
-//      String currentSelection = PathUtils.forceForwardSlashes(pathOfFile);
-//      if (currentSelection.startsWith("/")) {
-//         currentSelection = currentSelection.substring(1, currentSelection.length());
-//      }
-//      String dirPath = PathUtils.forceForwardSlashes(containingPath);
-//      String relativePath = PathUtils.relativize(dirPath, currentSelection);
-//      return relativePath;
-//   }
+
 
    // On double-click, open image
    private void processDoubleClick(String localFilepath) {
