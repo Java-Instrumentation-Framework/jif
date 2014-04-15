@@ -91,6 +91,12 @@ public class DataFileWriter extends AbstractDataFile
         nf = NumberFormat.getInstance();
         setCharacterEncoding(enc);
     }
+    
+    public DataFileWriter(String enc, NumberFormat nf)
+    {
+        this.nf = nf;
+        setCharacterEncoding(enc);
+    }
 
     /**
      * Interface for specifying if data should be added to the output file if it

@@ -19,6 +19,8 @@
  */
 package com.infomata.data;
 
+import java.text.NumberFormat;
+
 
 /**
  * <p>
@@ -114,6 +116,38 @@ public class DataFileFactory
     public static final DataFile createWriter(String enc, boolean append)
     {
         DataFileWriter writer = new DataFileWriter(enc);
+        writer.setAppendToFile(append);
+        return writer;
+    }
+    
+    
+    /**
+     * Creates a writer instance of DataFile used for writing a data file.
+     * 
+     * @param enc
+     *            Java encoding to use while writing the data file containing
+     *            none-English characters.
+     * @param append
+     *            True if appending to existing data file. False, if writing to
+     *            a new file or overwriting current file.
+     * @return a writer instance of DataFile.
+     * 
+     * Added by GBH April '14
+     * Adds ability to set numeric output format
+     * 
+     * Usage, e.g.: 
+            String fmtPattern = "###.#####";
+            NumberFormat fmt = NumberFormat.getInstance();
+            if (fmt instanceof DecimalFormat) {
+               ((DecimalFormat) fmt).setDecimalSeparatorAlwaysShown(false);
+               ((DecimalFormat) fmt).applyPattern(fmtPattern);
+            }
+            datafile = DataFileFactory.createWriter("8859_2", false, fmt);
+ 
+     */
+    public static final DataFile createWriter(String enc, boolean append, NumberFormat nf)
+    {
+        DataFileWriter writer = new DataFileWriter(enc, nf);
         writer.setAppendToFile(append);
         return writer;
     }
