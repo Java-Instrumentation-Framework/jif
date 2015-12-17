@@ -15,6 +15,7 @@ import javax.media.jai.JAI;
 import javax.media.jai.ParameterBlockJAI;
 import javax.media.jai.PlanarImage;
 
+
 //import net.sourceforge.jiu.codecs.CodecMode;
 //import net.sourceforge.jiu.codecs.PNMCodec;
 //import net.sourceforge.jiu.codecs.UnsupportedCodecModeException;
@@ -371,7 +372,12 @@ public class ImageUtils {
       pb.setParameter("interpolation", new InterpolationNearest());
 
       PlanarImage resized_img = JAI.create("scale", pb, null);
-      BufferedImage res = resized_img.getAsBufferedImage();
+      BufferedImage res = null;
+      try {
+         res = resized_img.getAsBufferedImage();
+      } catch (Exception e) {
+         System.out.println("JAI: Could not find mediaLib accelerator, continuing in pure Java mode.");
+      }
 
       //free memory.
       img.dispose();

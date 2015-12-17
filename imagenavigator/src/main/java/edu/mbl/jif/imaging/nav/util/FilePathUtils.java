@@ -86,8 +86,8 @@ public class FilePathUtils {
       String dirPath = FilePathUtils.forceForwardSlashes(containingPath);
       String commonPath = commonPath(new String[]{dirPath, filePath});
       // DEBUG
-      System.out.println("commonPath: " + commonPath);
-      System.out.println("filePath: " + filePath);
+      //System.out.println("commonPath: " + commonPath);
+      //System.out.println("filePath: " + filePath);
       //
       String relativePath = relativize(commonPath, filePath);
       return relativePath;

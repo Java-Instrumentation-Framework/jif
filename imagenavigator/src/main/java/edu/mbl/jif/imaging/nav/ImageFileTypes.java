@@ -1,20 +1,42 @@
 package edu.mbl.jif.imaging.nav;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
+import edu.mbl.jif.utils.Prefs;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author GBH <imagejdev.org>
  */
-enum ImageFileTypes {
+public enum ImageFileTypes {
 
-   ALL,
-   TIF,
-   OME_TIF;
+   TIF(new String[]{"tif", "tiff"}),
+   OME_TIF(new String[]{"ome.tif"}),
+   PNG(new String[]{"png"}),
+   JPG(new String[]{"jpg", "jpeg"}),
+   GIF(new String[]{"gif"});
+   // TODO AVI(new String[]{"avi"});
+   // TODO MOV(new String[]{"mov"});
+
+   private ImageFileTypes(String[] extensions) {
+      this.extensions = extensions;
+   }
+
+   private boolean selected;
+
+   private String[] extensions;
+
+   public String[] getExtensions() {
+      return extensions;
+   }
+
+   public boolean isSelected() {
+      return selected;
+   }
+
+   public void setSelected(boolean selected) {
+      this.selected = selected;
+   }
 
    @Override
    public String toString() {
@@ -29,29 +51,58 @@ enum ImageFileTypes {
       return fixedName.toString();
    }
 
-   public static void main(String[] args) {
+   final static String TYPES_KEY = "imageFileTypes";
 
-      JComboBox fileTypeComboBox = new JComboBox();
-      ComboBoxModel cbModel = new DefaultComboBoxModel(ImageFileTypes.values());
-      fileTypeComboBox.setModel(cbModel);
-      fileTypeComboBox.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent evt) {
-            JComboBox cb = (JComboBox) evt.getSource();
-            ImageFileTypes fileType = (ImageFileTypes) cb.getSelectedItem();
-            switch (fileType) {
-               case ALL: {
-
-               }
-               case OME_TIF: {
-               }
-               //processing code...
-               case TIF: {
-               }
-
-            }
+   public void saveToPrefs() {
+      final List<String> selectedTypes = new ArrayList<String>();
+      for (ImageFileTypes type : ImageFileTypes.values()) {
+         if (type.selected) {
+            selectedTypes.add(type.toString());
          }
-      });
+      }
+      Prefs.put(ImageNavigator.class, TYPES_KEY, selectedTypes);
+   }
+
+   public void loadFromPrefs() {
+      final List<String> selectedTypes = Prefs.getList(ImageNavigator.class, TYPES_KEY);
+      for (ImageFileTypes type : ImageFileTypes.values()) {
+         if (selectedTypes.contains(type.toString())) {
+            type.setSelected(true);
+         } else {
+            type.setSelected(false);
+         }
+      }
+   }
+
+   public static void main(String[] args) {
+      for (ImageFileTypes type : ImageFileTypes.values()) {
+         type.setSelected(true);
+      }
+      for (ImageFileTypes type : ImageFileTypes.values()) {
+         System.out.println(type.name() + ": " + type.selected + " > " + type.toString());
+      }
+
+//      JComboBox fileTypeComboBox = new JComboBox();
+//      ComboBoxModel cbModel = new DefaultComboBoxModel(ImageFileTypes.values());
+//      fileTypeComboBox.setModel(cbModel);
+//      fileTypeComboBox.addActionListener(new ActionListener() {
+//         @Override
+//         public void actionPerformed(ActionEvent evt) {
+//            JComboBox cb = (JComboBox) evt.getSource();
+//            ImageFileTypes fileType = (ImageFileTypes) cb.getSelectedItem();
+//            switch (fileType) {
+//               case ALL: {
+//
+//               }
+//               case OME_TIF: {
+//               }
+//               //processing code...
+//               case TIF: {
+//               }
+//
+//            }
+//         }
+//      });
    }
 
 }

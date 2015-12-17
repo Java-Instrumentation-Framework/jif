@@ -37,10 +37,16 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
 
    private ImageNavigator imgNav;
    private File dir;
-   private boolean recurseSubDirs = false;
-   private boolean firstOnly;
+   //
+   // this is replaced with each change of directory
    private Galatee currentGalatee;
-   // View
+   //
+   private boolean recurseSubDirs = false;
+   private int recurseDepth = 8;
+   // ?? private int maxNumFilesBeforeWarning;
+   private boolean firstOnly;
+
+   // View settings
    public static final int GRID = 0;
    public static final int TABLE = 1;
    private int currentView;
@@ -62,12 +68,14 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
    private FileOpener fileOpener;
    //
 
-   public ImageNavCreator(ImageNavigator imgNav) {
+   public ImageNavCreator(ImageNavigator imgNav, boolean doNotOpen) {
       this.imgNav = imgNav;
       pathWatcher = new PathWatcher(this);
       numColumnsGridView = Prefs.getInt(ImageNavigator.class, "numColsGrid", 4);
       //thumbWidth = Prefs.getInt(ImageNavigator.class,"thumbWidth", 64);
-      fileOpener = new FileOpener();
+      if (!doNotOpen) {
+         fileOpener = new FileOpener();
+      }
    }
 
    //g.enableSearchFunctionality();
@@ -85,7 +93,7 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
          showDescription = false;
       } else if (this.currentView == TABLE) {
          numColumns = numColumnsInTableView;
-         descriptionWidth = panelWidth/numColumnsInTableView - thumbWidth - 20;
+         descriptionWidth = panelWidth / numColumnsInTableView - thumbWidth - 20;
          showDescription = true;
       }
    }
@@ -93,11 +101,11 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
    public void setRecurseSubDirs(boolean recurse) {
       this.recurseSubDirs = recurse;
       this.setWatchRecursively(recurse);
-      if (this.recurseSubDirs) {
-         GalateeProperties.setSelected_item_background_color("#779438");
-      } else {
-         GalateeProperties.setSelected_item_background_color("#127990");
-      }
+      //      if (this.recurseSubDirs) {
+      //         GalateeProperties.setSelected_item_background_color("#779438");
+      //      } else {
+      //         GalateeProperties.setSelected_item_background_color("#127990");
+      //      }
    }
 
    public void setFirstOnly(boolean selected) {
@@ -116,10 +124,11 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
       return thumbWidth;
    }
 
-   // DirectorySelectionListener implementation =====================
+   // Galatee.DirectorySelectionListener implementation =====================
    @Override
    /* When a new directory is selected, a new ImageNav is created containing thumbnails for the 
     * images/dataset in that directory and maybe its sub-dirs
+    * This is called by the DirectoryTree
     */
    public void directorySelected(final File directory) {
       this.dir = directory;
@@ -160,7 +169,10 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
    }
 
    public Galatee createNewImageNav(String path, boolean recursive) {
-      Galatee g = GalateeFactory.loadDatasetFromDirectory(path, recursive, firstOnly,
+      if (currentGalatee != null) {
+         currentGalatee.getImageLoaderThread().terminate();
+      }
+      Galatee g = GalateeFactory.loadDatasetFromDirectory(path, recursive, recurseDepth, firstOnly,
               numColumns, thumbWidth, showDescription, descriptionWidth, equalizeHisto);
       //Galatee g = createGalatee(path + "/*.tif", 88, numColumns, false);
       g.addGalateeListener(createActionsListener());
@@ -263,8 +275,10 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
 
 // <editor-fold defaultstate="collapsed" desc=" === Actions =======================================">
    // Galatee makes callbacks here on selection or double click
+   // These are called from the image items in the table/grid
    private GListener createActionsListener() {
       return new GListener() {
+
 //         class SystemCommandThread extends Thread {
 //            private SystemCommandHandler2 sch2 = new SystemCommandHandler2();
 //            private String command;
@@ -278,15 +292,6 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
 //               sch2.exec(commands);
 //            }
 //         }
-         
-         @Override
-         public void itemDoubleClicked(GEvent e) {
-            // TODO add image viewer here...
-            System.out.println("item doubleclicked ["
-                    + e.getSelectedItem().getLocalFilepath() + "]");
-            processDoubleClick(e.getSelectedItem().getLocalFilepath());
-         }
-
          @Override
          public void selectionChanged(GEvent e) {
             if (e.getSelectedItem() == null) {
@@ -298,16 +303,26 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
                currentSelection = e.getSelectedItem().getLocalFilepath();
             }
          }
+
+         @Override
+         public void itemDoubleClicked(GEvent e) {
+            // TODO add image viewer here...
+            System.out.println("item doubleclicked ["
+                    + e.getSelectedItem().getLocalFilepath() + "]");
+            processDoubleClick(e.getSelectedItem().getLocalFilepath());
+         }
       };
    }
 
-
-   // On double-click, open image
+   // On double-click, open image or notify FileChoosenListeners
    private void processDoubleClick(String localFilepath) {
-      fileOpener.openFile(localFilepath);
+      imgNav.notifyFileChoosenListeners(new File(localFilepath));
+      if (fileOpener != null) {
+         fileOpener.openFile(localFilepath);
+      }
    }
 
-   //
+   // Popup Menu for images in the table or grid (in the Galatee)
    public void addPopUps(Galatee g) {
       // Add popup menu options...
       JPopupMenu popup_menu = new JPopupMenu();
@@ -316,9 +331,7 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
       item.setEnabled(false);
       popup_menu.add(item);
       popup_menu.addSeparator();
-      item = new JMenuItem("Open in ImageJ");
-      popup_menu.add(item);
-      item = new JMenuItem("Open in MMgr");
+      item = new JMenuItem("Open with...");
       popup_menu.add(item);
       item = new JMenuItem(openTreeAtDirectory);
       popup_menu.add(item);
@@ -327,7 +340,7 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
       popup_menu.add(item);
       g.setPopup_menu(popup_menu);
    }
-   //
+
    Action openTreeAtDirectory = new AbstractAction("OpenDirectory") {
       // TODO -- This is very slow...
       // Open the Directory tree at the directory of the selected file
@@ -336,40 +349,32 @@ public class ImageNavCreator implements DirectorySelectionListener, PathWatcherO
          if (currentSelection == null) {
             return;
          }
-         
          System.out.println("currentSelection: " + currentSelection);
          File f = new File(currentSelection);
          String dirPath = f.getParent();
          System.out.println("parent: " + dirPath);
-////         String foreslash = "/";
-////         String regex = "\\\\";
-////         final String dirPathFixed = dirPath.replaceAll(regex, foreslash);
-////         System.out.println("dirPathFixed: " + dirPathFixed);
          final String dirPathFixed = FilePathUtils.forceForwardSlashes(dirPath);
-////         imgExp.showBusyDialog();
-
          StaticSwingUtils.dispatchToEDT(new Runnable() {
             public void run() {
                imgNav.getDirTree().setStartIn(dirPathFixed);
 
             }
          });
-//         imgExp.closeBusyDialog();
       }
    };
+
    Action copyPathToClipboard = new AbstractAction("Copy Path") {
       @Override
       public void actionPerformed(ActionEvent e) {
          if (currentSelection == null) {
             return;
          }
-//         File f = new File(currentSelection);
-//         String path = f.getAbsolutePath();
          StringSelection stringSelection = new StringSelection(currentSelection);
          Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
          clpbrd.setContents(stringSelection, null);
       }
    };
+
 // </editor-fold>
 //
 }

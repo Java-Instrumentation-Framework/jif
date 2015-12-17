@@ -23,11 +23,10 @@ import org.apache.commons.io.comparator.NameFileComparator;
 public class GalateeFactory {
 
    static String topDir = "";
+   //private static int currentDepth;
+   private static int recurseDepth_;
 
-   public static Galatee loadDatasetFromDirectory(String dir_path,
-           boolean recursive, boolean firstOnly, int numColumns,
-           int thumbSize,
-           boolean showDescription, int descriptionWidth, boolean equalizeHisto) {
+   public static Galatee loadDatasetFromDirectory(String dir_path, boolean recursive, int recurseDepth, boolean firstOnly, int numColumns, int thumbSize, boolean showDescription, int descriptionWidth, boolean equalizeHisto) {
       Vector<URI> v_uri = new Vector<URI>();
       Vector<Vector<Object>> v_object = new Vector<Vector<Object>>();
       File dir = new File(dir_path);
@@ -42,8 +41,8 @@ public class GalateeFactory {
       File tdir = new File(topDir);
       System.out.println("tdir.isDirectory(): " + tdir.isDirectory() + " >> " + topDir);
       //
-
-      getFilesRec(dir, v_uri, v_object, recursive, firstOnly);
+      recurseDepth_ = recurseDepth;
+      getFilesRec(dir, v_uri, v_object, recursive, firstOnly, 0);
 
       Galatee g = new Galatee(v_uri, v_object,
               new Dimension(thumbSize, thumbSize),
@@ -94,22 +93,23 @@ public class GalateeFactory {
 //              GalateeProperties.getNumber_of_column());
 //      return g;
 //   }
-   // This is 
-   private static void getFilesRec(File dir,
-           Vector<URI> v_uri,
-           Vector<Vector<Object>> v_object,
-           boolean recurse, boolean firstOnly) {
+//  
+   private static void getFilesRec(File dir, 
+           Vector<URI> v_uri, Vector<Vector<Object>> v_object, 
+           boolean recurse, boolean firstOnly, int currentDepth) {
+      
       File[] children = dir.listFiles();
       if (children == null) {
          return;
       }
+      int currentDepth_ = currentDepth + 1;
       Arrays.sort(children, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
       boolean didFirst = false;
       for (int i = 0; i < children.length; ++i) {
          File child = children[i];
          if (child.isDirectory()) {
-            if (recurse) {
-               getFilesRec(child, v_uri, v_object, recurse, firstOnly);
+            if (recurse && currentDepth<recurseDepth_) { 
+               getFilesRec(child, v_uri, v_object, recurse, firstOnly, currentDepth_);
             }
          } else { // is a file.
             if (!didFirst) {
@@ -125,17 +125,20 @@ public class GalateeFactory {
                      //
                      // Set the description... <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                      // relative path and filename
-                     String relPath = null;
+                     String displayString = "";
                      try {
-                        relPath = FilePathUtils.getRelativePath(topDir,
+                        String relPath = FilePathUtils.getRelativePath(topDir,
                                 children[i].getParentFile().getAbsolutePath());
+                        if (relPath != null && !relPath.equalsIgnoreCase(".")) {
+                           displayString = displayString + relPath + "/\n";
+                        }
                      } catch (IllegalArgumentException illegalArgumentException) {
                      }
-                     if (relPath == null || relPath.equalsIgnoreCase(".")) {
-                        v.add(children[i].getName());
-                     } else {
-                        v.add(relPath + "/\n" + children[i].getName());
+                     displayString = displayString + children[i].getName();
+                     if(firstOnly) {
+                        displayString = displayString + "\n(+ " + (children.length-1) + " more)";
                      }
+                     v.add(displayString);
                      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                      v_object.add(v);
                      if (firstOnly) {
@@ -275,4 +278,5 @@ public class GalateeFactory {
 
       return g;
    }
+   
 }

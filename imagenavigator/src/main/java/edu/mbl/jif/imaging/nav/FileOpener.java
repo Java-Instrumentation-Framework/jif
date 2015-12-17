@@ -133,5 +133,10 @@ public class FileOpener {
       }
    }
 
+   // TODO
+   public void openInExternalViewer() {
+      
+   }
+
 // </editor-fold>
 }

@@ -33,6 +33,8 @@ public class PrefsDialog extends javax.swing.JDialog {
       panelFilePrefs = new javax.swing.JPanel();
       jLabel4 = new javax.swing.JLabel();
       clearFavsButton = new javax.swing.JButton();
+      jSpinner2 = new javax.swing.JSpinner();
+      jLabel2 = new javax.swing.JLabel();
       panelDisplayPrefs = new javax.swing.JPanel();
       jCheckBox1 = new javax.swing.JCheckBox();
       jCheckBox2 = new javax.swing.JCheckBox();
@@ -50,6 +52,8 @@ public class PrefsDialog extends javax.swing.JDialog {
       jpgCheck = new javax.swing.JCheckBox();
       gifCheck = new javax.swing.JCheckBox();
       pngCheck = new javax.swing.JCheckBox();
+      jComboBox1 = new javax.swing.JComboBox();
+      jLabel3 = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
       setTitle("ImageNavigator Preferences");
@@ -60,6 +64,8 @@ public class PrefsDialog extends javax.swing.JDialog {
 
       clearFavsButton.setText("Clear Favorites");
 
+      jLabel2.setText("Sub-dir depth");
+
       javax.swing.GroupLayout panelFilePrefsLayout = new javax.swing.GroupLayout(panelFilePrefs);
       panelFilePrefs.setLayout(panelFilePrefsLayout);
       panelFilePrefsLayout.setHorizontalGroup(
@@ -67,9 +73,16 @@ public class PrefsDialog extends javax.swing.JDialog {
          .addGroup(panelFilePrefsLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(panelFilePrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jLabel4)
-               .addComponent(clearFavsButton))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+               .addGroup(panelFilePrefsLayout.createSequentialGroup()
+                  .addComponent(jLabel4)
+                  .addContainerGap(269, Short.MAX_VALUE))
+               .addGroup(panelFilePrefsLayout.createSequentialGroup()
+                  .addComponent(clearFavsButton)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addComponent(jLabel2)
+                  .addGap(18, 18, 18)
+                  .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(47, 47, 47))))
       );
       panelFilePrefsLayout.setVerticalGroup(
          panelFilePrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,7 +90,10 @@ public class PrefsDialog extends javax.swing.JDialog {
             .addContainerGap()
             .addComponent(jLabel4)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(clearFavsButton)
+            .addGroup(panelFilePrefsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(clearFavsButton)
+               .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel2))
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
 
@@ -240,6 +256,10 @@ public class PrefsDialog extends javax.swing.JDialog {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
 
+      jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+      jLabel3.setText("Open images with:");
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -252,11 +272,21 @@ public class PrefsDialog extends javax.swing.JDialog {
                .addComponent(panelFilePrefs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                .addComponent(panelDisplayPrefs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap())
+         .addGroup(layout.createSequentialGroup()
+            .addGap(89, 89, 89)
+            .addComponent(jLabel3)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addContainerGap(23, Short.MAX_VALUE)
+            .addContainerGap(21, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel3))
+            .addGap(18, 18, 18)
             .addComponent(panelFilePrefs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(27, 27, 27)
             .addComponent(imgTypePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -285,13 +315,17 @@ public class PrefsDialog extends javax.swing.JDialog {
    private javax.swing.JCheckBox jCheckBox1;
    private javax.swing.JCheckBox jCheckBox2;
    private javax.swing.JCheckBox jCheckBox3;
+   private javax.swing.JComboBox jComboBox1;
    private javax.swing.JLabel jLabel1;
+   private javax.swing.JLabel jLabel2;
+   private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JPanel jPanel2;
    private javax.swing.JPanel jPanel3;
    private javax.swing.JSlider jSlider1;
    private javax.swing.JSpinner jSpinner1;
+   private javax.swing.JSpinner jSpinner2;
    private javax.swing.JCheckBox jpgCheck;
    private javax.swing.JCheckBox mmCheck;
    private javax.swing.JCheckBox omeCheck;

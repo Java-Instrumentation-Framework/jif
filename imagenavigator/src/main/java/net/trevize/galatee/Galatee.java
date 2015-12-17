@@ -121,7 +121,7 @@ public class Galatee extends JPanel implements
        */
 
       //for launching from an executable jar.
-	/*
+      /*
        try {
        imageLoadingError = ImageIO.read(imageLoadingErrorUrl);
        } catch (IOException e) {

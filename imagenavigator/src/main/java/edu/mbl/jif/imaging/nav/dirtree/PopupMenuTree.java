@@ -114,7 +114,7 @@ public class PopupMenuTree extends JPopupMenu {
          public void actionPerformed(ActionEvent ae) {
             //String str = curNode.toString();
             String str = ((File) curNode.getUserObject()).getAbsolutePath();
-            PopupMenuTree.this.imageNavigator.setDefaultTopPath(str);
+            PopupMenuTree.this.imageNavigator.setDefaultTopPath(str,true);
          }
       });
       //

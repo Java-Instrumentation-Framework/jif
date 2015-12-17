@@ -8,12 +8,8 @@ import java.io.InputStream;
 import com.davidsoergel.conja.Function;
 import com.davidsoergel.conja.Parallel;
 import com.sun.media.jai.codec.SeekableStream;
-import edu.mbl.jif.imaging.dataset.MMgrDatasetAccessor;
-import edu.mbl.jif.imaging.dataset.util.DatasetUtils;
 import edu.mbl.jif.imaging.nav.FileOpener;
 import edu.mbl.jif.imaging.nav.util.Histogram;
-import java.awt.image.RescaleOp;
-import org.json.JSONObject;
 
 /**
  * This class is used for the Galatee image viewer.
@@ -36,6 +32,7 @@ public class ImageLoaderThread extends Thread {
    private GItemList gi_list;
 
    public ImageLoaderThread(Galatee galatee, int imageWidth, int imageHeight) {
+      super("ImgLoader");
       this.galatee = galatee;
       this.imageWidth = imageWidth;
       this.imageHeight = imageHeight;
@@ -59,7 +56,7 @@ public class ImageLoaderThread extends Thread {
    }
 
    public void run() {
-      while (true) { //main loop.
+      while (!stop) { //main loop.
          //define the function for the Parallel.forEach(...).
          Function<GItem, Void> loadImageFunction = new Function<GItem, Void>() {
             public Void apply(GItem gitem) {
@@ -157,19 +154,31 @@ public class ImageLoaderThread extends Thread {
             }
          };
          //launch the Parallel.forEach(...).
-         Parallel.forEach(gi_list, loadImageFunction);
-         Parallel.emergencyAbort();
+         
+         try {
+            Parallel.forEach(gi_list, loadImageFunction);
+            Parallel.emergencyAbort();
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
          //waiting to be notified that there's stuff again in the queue.
          synchronized (this) {
             try {
                //System.out.println("iltpt is waiting.");
                this.wait();
             } catch (InterruptedException e) {
-               e.printStackTrace();
+               //e.printStackTrace();
+               //System.out.println("Image loader Thread terminated... at wait");
             }
          }
       }//end while(true)
    }//end run() method
+
+   boolean stop = false;
+   public void terminate() {
+      stop = true;
+      this.interrupt();
+   }
 
    /**
     * *************************************************************************
@@ -190,4 +199,5 @@ public class ImageLoaderThread extends Thread {
    public void setImageHeight(int imageHeight) {
       this.imageHeight = imageHeight;
    }
+   
 }
